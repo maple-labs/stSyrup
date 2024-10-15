@@ -1,40 +1,20 @@
-# xMPL
+# stSyrup
 
-![Foundry CI](https://github.com/maple-labs/xmpl/actions/workflows/push-to-main.yml/badge.svg) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-This repo contains a set of contracts to facilitate on-chain distribution of protocol revenues denominated in MPL tokens. MPL distributions are made using RevenueDistributionToken (RDT) vesting schedule functionaltiy. This allows for multiple deposits to be made to the same contract on a recurring basis with custom vesting parameters.
+This repo contains a set of contracts to facilitate on-chain distribution of protocol revenues denominated in Syrup tokens. Syrup distributions are made using RevenueDistributionToken (RDT) vesting schedule functionality. This allows for multiple deposits to be made to the same contract on a recurring basis with custom vesting parameters.
+
+Please note stSyrup is a new contract re-deployed using the old xMPL Contract and can be found on [etherscan](https://etherscan.io/address/0xc7E8b36E0766D9B04c93De68A9D47dD11f260B45).
 
 ## Capabilities
 
-xMPL inherits the core functionality from Maple's [Revenue Distribution Token](https://github.com/maple-labs/revenue-distribution-token), which allows users to lock assets to earn rewards distributions based on a vesting schedule, with the increased functionality to perform a one time asset migration for the underlying token. This migration will interact with the contracts defined in [mpl-migration](https://github.com/maple-labs/mpl-migration).
-
-This mechanism is present in case an MPL migration is ever needed, which would require approval of the Maple DAO. The transaction that perform the migration has a time delay, which allows any parties to withdraw before the changes take effect.
-
-![One Time xMPL Migration Diagram](https://user-images.githubusercontent.com/44272939/156459811-1a4b623c-932a-4ac4-b9e7-147ccfa1c6ca.png)
-
-### One-Time xMPL Migration
-
-This allows a seamless and safe migration for all users that have staked their MPL into the xMPL contract.
-
-1. The first step to trigger a migration is for the contract governor to call `scheduleMigration`, which sets a execution to occur at least 10 days from the transaction time. In the meantime, all functionality in the xMPL contract remain operational.
-
-2. During this period, any party that disagrees with the scheduled migration can withdraw their funds from the contract.
-
-3. After the time delay, anyone can call `performMigration`, which executes the migration with the parameters set 10 days prior.
-
-4. During this migration,the xMPL contract deposits its entire balance of MPL to the migrator contract, which includes non vested and vested funds.
-
-5. The migrator contract takes the MPL amount and returns the exact same amount of MPLv2, with a 1:1 ratio. The MPL tokens will remain locked in the migrator contract so they cannot be migrated twice.
-
-6. In the last step, the address defined as `asset` in xMPL contract is switched from MPLv1 to the newly migrated MPLv2 address. From that point on, all subsequent operations will be in relation to the new migrated token.
-
-Holders of the xMPL token do not need to perform any action in order to migrate their tokens, however holders that do not interact with the xMPL contract would need to perform a migration by themselves.
+stSyrup inherits the core functionality from Maple's [Revenue Distribution Token](https://github.com/maple-labs/revenue-distribution-token), which allows users to lock assets to earn rewards distributions based on a vesting schedule.
 
 ## Testing and Development
 #### Setup
 ```sh
-git clone git@github.com:maple-labs/xMPL.git
-cd xMPL
+git clone git@github.com:maple-labs/stsyrup.git
+cd stSyrup
 forge update
 ```
 #### Running Tests
